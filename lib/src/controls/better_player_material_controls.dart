@@ -287,13 +287,13 @@ class _BetterPlayerMaterialControlsState
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Expanded(
-              flex: 75,
+              flex: 60,
               child: Row(
                 children: [
-                  if (_controlsConfiguration.enablePlayPause)
+                  /*if (_controlsConfiguration.enablePlayPause)
                     _buildPlayPause(_controller!)
                   else
-                    const SizedBox(),
+                    const SizedBox(),*/
                   if (_betterPlayerController!.isLiveStream())
                     _buildLiveWidget()
                   else
@@ -384,12 +384,12 @@ class _BetterPlayerMaterialControlsState
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 if (_controlsConfiguration.enableSkips)
-                  Expanded(child: _buildSkipButton())
+                  _buildSkipButton()
                 else
                   const SizedBox(),
-                Expanded(child: _buildReplayButton(_controller!)),
+                _buildReplayButton(_controller!),
                 if (_controlsConfiguration.enableSkips)
-                  Expanded(child: _buildForwardButton())
+                  _buildForwardButton()
                 else
                   const SizedBox(),
               ],
@@ -400,17 +400,17 @@ class _BetterPlayerMaterialControlsState
   Widget _buildHitAreaClickableButton(
       {Widget? icon, required void Function() onClicked}) {
     return Container(
-      constraints: const BoxConstraints(maxHeight: 80.0, maxWidth: 80.0),
+      constraints: const BoxConstraints(maxHeight: 50.0, maxWidth: 50.0),
       child: BetterPlayerMaterialClickableWidget(
         onTap: onClicked,
         child: Align(
           child: Container(
             decoration: BoxDecoration(
-              color: Colors.transparent,
+              color: _betterPlayerController!.betterPlayerConfiguration.middleIconBackgroundColor,
               borderRadius: BorderRadius.circular(48),
             ),
             child: Padding(
-              padding: const EdgeInsets.all(8),
+              padding: const EdgeInsets.all(4),
               child: Stack(
                 children: [icon!],
               ),
@@ -572,15 +572,17 @@ class _BetterPlayerMaterialControlsState
         ? _latestValue!.duration!
         : Duration.zero;
 
-    return Padding(
+    return Container(
       padding: _controlsConfiguration.enablePlayPause
-          ? const EdgeInsets.only(right: 24)
+          ? const EdgeInsets.only(left:12,right: 24)
           : const EdgeInsets.symmetric(horizontal: 22),
+      margin: const EdgeInsets.symmetric(horizontal: 4),
+     // padding: const EdgeInsets.symmetric(horizontal: 12),
       child: RichText(
         text: TextSpan(
             text: BetterPlayerUtils.formatDuration(position),
             style: TextStyle(
-              fontSize: 10.0,
+              fontSize: 11.0,
               color: _controlsConfiguration.textColor,
               decoration: TextDecoration.none,
             ),
@@ -588,7 +590,7 @@ class _BetterPlayerMaterialControlsState
               TextSpan(
                 text: ' / ${BetterPlayerUtils.formatDuration(duration)}',
                 style: TextStyle(
-                  fontSize: 10.0,
+                  fontSize: 11.0,
                   color: _controlsConfiguration.textColor,
                   decoration: TextDecoration.none,
                 ),

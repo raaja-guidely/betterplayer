@@ -24,7 +24,8 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
         DeviceOrientation.portraitDown,
         DeviceOrientation.portraitUp
       ],
-    );
+      middleIconBackgroundColor: Colors.blue.withOpacity(0.5),
+        );
     _betterPlayerDataSource = BetterPlayerDataSource(
       BetterPlayerDataSourceType.network,
       Constants.forBiggerBlazesUrl,
@@ -36,6 +37,7 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Normal player page"),

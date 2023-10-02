@@ -162,7 +162,7 @@ class BetterPlayerControlsConfiguration {
   final Color overflowModalTextColor;
 
   const BetterPlayerControlsConfiguration({
-    this.controlBarColor = Colors.black87,
+    this.controlBarColor = Colors.black26,
     this.textColor = Colors.white,
     this.iconsColor = Colors.white,
     this.playIcon = Icons.play_arrow_outlined,
@@ -190,7 +190,7 @@ class BetterPlayerControlsConfiguration {
     this.playerTheme,
     this.showControls = true,
     this.showControlsOnInitialize = true,
-    this.controlBarHeight = 48.0,
+    this.controlBarHeight = 58.0,
     this.liveTextColor = Colors.red,
     this.enableOverflowMenu = true,
     this.enablePlaybackSpeed = true,

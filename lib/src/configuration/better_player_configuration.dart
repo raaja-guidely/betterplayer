@@ -117,8 +117,9 @@ class BetterPlayerConfiguration {
   ///Flag which causes to player use the root navigator to open new pages.
   ///Default value is false.
   final bool useRootNavigator;
+  final Color? middleIconBackgroundColor;
 
-  const BetterPlayerConfiguration({
+   const BetterPlayerConfiguration({
     this.aspectRatio,
     this.autoPlay = false,
     this.startAt,
@@ -156,6 +157,7 @@ class BetterPlayerConfiguration {
     this.autoDispose = true,
     this.expandToFill = true,
     this.useRootNavigator = false,
+    this.middleIconBackgroundColor= Colors.transparent,
   });
 
   BetterPlayerConfiguration copyWith({
@@ -188,6 +190,7 @@ class BetterPlayerConfiguration {
     bool? autoDispose,
     bool? expandToFill,
     bool? useRootNavigator,
+    Color? middleIconBackgroundColor,
   }) {
     return BetterPlayerConfiguration(
       aspectRatio: aspectRatio ?? this.aspectRatio,
@@ -228,6 +231,7 @@ class BetterPlayerConfiguration {
       autoDispose: autoDispose ?? this.autoDispose,
       expandToFill: expandToFill ?? this.expandToFill,
       useRootNavigator: useRootNavigator ?? this.useRootNavigator,
+      middleIconBackgroundColor: middleIconBackgroundColor ?? this.middleIconBackgroundColor,
     );
   }
 }
