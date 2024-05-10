@@ -43,6 +43,7 @@ class _BetterPlayerMaterialControlsState
   VideoPlayerController? _controller;
   BetterPlayerController? _betterPlayerController;
   StreamSubscription? _controlsVisibilityStreamSubscription;
+  bool isControlLock=false;
 
   BetterPlayerControlsConfiguration get _controlsConfiguration =>
       widget.controlsConfiguration;
@@ -73,24 +74,32 @@ class _BetterPlayerMaterialControlsState
     }
     return GestureDetector(
       onTap: () {
-        if (BetterPlayerMultipleGestureDetector.of(context) != null) {
-          BetterPlayerMultipleGestureDetector.of(context)!.onTap?.call();
+        if(!isControlLock) {
+          if (BetterPlayerMultipleGestureDetector.of(context) != null) {
+            BetterPlayerMultipleGestureDetector.of(context)!.onTap?.call();
+          }
+          controlsNotVisible
+              ? cancelAndRestartTimer()
+              : changePlayerControlsNotVisible(true);
         }
-        controlsNotVisible
-            ? cancelAndRestartTimer()
-            : changePlayerControlsNotVisible(true);
       },
       onDoubleTap: () {
-        if (BetterPlayerMultipleGestureDetector.of(context) != null) {
-          BetterPlayerMultipleGestureDetector.of(context)!.onDoubleTap?.call();
+        if(!isControlLock) {
+          if (BetterPlayerMultipleGestureDetector.of(context) != null) {
+            BetterPlayerMultipleGestureDetector.of(context)!.onDoubleTap?.call();
+          }
+          cancelAndRestartTimer();
         }
-        cancelAndRestartTimer();
       },
       onLongPress: () {
-        if (BetterPlayerMultipleGestureDetector.of(context) != null) {
-          BetterPlayerMultipleGestureDetector.of(context)!.onLongPress?.call();
+        if(!isControlLock) {
+          if (BetterPlayerMultipleGestureDetector.of(context) != null) {
+            BetterPlayerMultipleGestureDetector.of(context)!.onLongPress
+                ?.call();
+          }
         }
       },
+
       child: AbsorbPointer(
         absorbing: controlsNotVisible,
         child: Stack(
@@ -106,6 +115,20 @@ class _BetterPlayerMaterialControlsState
               right: 0,
               child: _buildTopBar(),
             ),
+
+            if(isControlLock)
+              Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
+                child: IconButton(onPressed: (){
+                  setState(() {
+                    changePlayerControlsNotVisible(false);
+                    isControlLock=false;
+                  });
+
+                }, icon: Icon(Icons.lock_open,color: Colors.white,),color: _betterPlayerController!.betterPlayerConfiguration.middleIconBackgroundColor,),
+              ),
             Positioned(bottom: 0, left: 0, right: 0, child: _buildBottomBar()),
             _buildNextVideoWidget(),
           ],
@@ -199,6 +222,35 @@ class _BetterPlayerMaterialControlsState
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
+
+                    Expanded(child: Row(
+                      children: [
+                        if(_controlsConfiguration.showBackPressIcon)
+                        GestureDetector(
+                          onTap: _betterPlayerController!.betterPlayerConfiguration.backPressIcon,
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 8.0,bottom: 8.0,top: 8.0),
+                            child: Icon(Icons.arrow_back,color: Colors.white,),
+                          ),
+                        ),
+                        if(_controlsConfiguration.showTitle)
+                        Expanded(child: Padding(
+                          padding: const EdgeInsets.only(left: 8.0,bottom: 8.0,top: 8.0),
+                          child: Text("${_betterPlayerController!.betterPlayerConfiguration.title}",style: TextStyle(color: Colors.white),maxLines: 1,overflow: TextOverflow.ellipsis,),
+                        )),
+                      ],
+                    )),
+                    if (_controlsConfiguration.showLock)
+                      IconButton(icon: Icon(Icons.lock),color: Colors.white, onPressed:(){
+                        debugPrint("loccccccckkk");
+                        if(!isControlLock){
+                          changePlayerControlsNotVisible(true);
+                          isControlLock=true;
+                        }
+                      }
+                      ,)
+                    else
+                      const SizedBox(),
                     if (_controlsConfiguration.enablePip)
                       _buildPipButtonWrapperWidget(
                           controlsNotVisible, _onPlayerHide)
@@ -290,10 +342,10 @@ class _BetterPlayerMaterialControlsState
               flex: 60,
               child: Row(
                 children: [
-                  /*if (_controlsConfiguration.enablePlayPause)
+                  if (_controlsConfiguration.enablePlayPause)
                     _buildPlayPause(_controller!)
                   else
-                    const SizedBox(),*/
+                    const SizedBox(),
                   if (_betterPlayerController!.isLiveStream())
                     _buildLiveWidget()
                   else
@@ -574,7 +626,7 @@ class _BetterPlayerMaterialControlsState
 
     return Container(
       padding: _controlsConfiguration.enablePlayPause
-          ? const EdgeInsets.only(left:12,right: 24)
+          ? const EdgeInsets.only(right: 24)
           : const EdgeInsets.symmetric(horizontal: 22),
       margin: const EdgeInsets.symmetric(horizontal: 4),
      // padding: const EdgeInsets.symmetric(horizontal: 12),

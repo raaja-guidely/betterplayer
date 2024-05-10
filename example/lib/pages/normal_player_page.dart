@@ -25,6 +25,10 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
         DeviceOrientation.portraitUp
       ],
       middleIconBackgroundColor: Colors.blue.withOpacity(0.5),
+          backPressIcon: (){
+        Navigator.of(context).pop();
+          },
+          title: "Video 1"
         );
     _betterPlayerDataSource = BetterPlayerDataSource(
       BetterPlayerDataSourceType.network,
@@ -39,12 +43,9 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Normal player page"),
-      ),
       body: Column(
         children: [
-          const SizedBox(height: 8),
+          SizedBox(height: MediaQuery.of(context).viewPadding.top),
           AspectRatio(
             aspectRatio: 16 / 9,
             child: BetterPlayer(controller: _betterPlayerController),

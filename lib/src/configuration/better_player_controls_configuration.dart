@@ -161,6 +161,15 @@ class BetterPlayerControlsConfiguration {
   ///Color of text in bottom modal sheet used for overflow menu items.
   final Color overflowModalTextColor;
 
+  ///Show Backpress Icon in Video Top
+  final bool showBackPressIcon;
+
+  ///Show Title in Video Top (Inside Video Player)
+  final bool showTitle;
+
+  ///Show Lock in Video Top (Inside Video Player)
+  final bool showLock;
+
   const BetterPlayerControlsConfiguration({
     this.controlBarColor = Colors.black26,
     this.textColor = Colors.white,
@@ -178,7 +187,7 @@ class BetterPlayerControlsConfiguration {
     this.enableProgressText = true,
     this.enableProgressBar = true,
     this.enableProgressBarDrag = true,
-    this.enablePlayPause = true,
+    this.enablePlayPause = false,
     this.enableSkips = true,
     this.enableAudioTracks = true,
     this.progressBarPlayedColor = Colors.white,
@@ -199,7 +208,7 @@ class BetterPlayerControlsConfiguration {
     this.enablePip = true,
     this.enableRetry = true,
     this.overflowMenuCustomItems = const [],
-    this.overflowMenuIcon = Icons.more_vert_outlined,
+    this.overflowMenuIcon = Icons.settings,
     this.pipMenuIcon = Icons.picture_in_picture_outlined,
     this.playbackSpeedIcon = Icons.shutter_speed_outlined,
     this.qualitiesIcon = Icons.hd_outlined,
@@ -213,6 +222,9 @@ class BetterPlayerControlsConfiguration {
     this.backgroundColor = Colors.black,
     this.overflowModalColor = Colors.white,
     this.overflowModalTextColor = Colors.black,
+    this.showBackPressIcon=true,
+    this.showTitle=true,
+    this.showLock=true,
   });
 
   factory BetterPlayerControlsConfiguration.white() {

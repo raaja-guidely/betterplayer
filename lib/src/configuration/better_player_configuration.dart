@@ -118,6 +118,8 @@ class BetterPlayerConfiguration {
   ///Default value is false.
   final bool useRootNavigator;
   final Color? middleIconBackgroundColor;
+  final Function()? backPressIcon;
+  final String title;
 
    const BetterPlayerConfiguration({
     this.aspectRatio,
@@ -158,6 +160,8 @@ class BetterPlayerConfiguration {
     this.expandToFill = true,
     this.useRootNavigator = false,
     this.middleIconBackgroundColor= Colors.transparent,
+     this.backPressIcon,
+     this.title=""
   });
 
   BetterPlayerConfiguration copyWith({
