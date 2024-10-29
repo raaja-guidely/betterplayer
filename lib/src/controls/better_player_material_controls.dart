@@ -122,12 +122,17 @@ class _BetterPlayerMaterialControlsState
                 left: 0,
                 right: 0,
                 child: IconButton(onPressed: (){
-                  setState(() {
-                    changePlayerControlsNotVisible(false);
-                    isControlLock=false;
-                  });
+                 // setState(() {
+                   /* changePlayerControlsNotVisible(false);
+                    isControlLock=false;*/
+                    debugPrint("unloccccccckkk");
+                    if(isControlLock){
+                      changePlayerControlsNotVisible(false);
+                      isControlLock=false;
+                    }
+                 // });
 
-                }, icon: Icon(Icons.lock_open,color: Colors.white,),color: _betterPlayerController!.betterPlayerConfiguration.middleIconBackgroundColor,),
+                }, icon: Icon(Icons.lock_open,color: Colors.grey,),color: _betterPlayerController!.betterPlayerConfiguration.middleIconBackgroundColor,),
               ),
             Positioned(bottom: 0, left: 0, right: 0, child: _buildBottomBar()),
             _buildNextVideoWidget(),
