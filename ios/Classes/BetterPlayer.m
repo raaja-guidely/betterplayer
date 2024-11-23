@@ -138,11 +138,11 @@ static inline CGFloat radiansToDegrees(CGFloat radians) {
                                                      withAsset:(AVAsset*)asset
                                                 withVideoTrack:(AVAssetTrack*)videoTrack {
     AVMutableVideoCompositionInstruction* instruction =
-    [AVMutableVideoCompositionInstruction videoCompositionInstruction];
+            [AVMutableVideoCompositionInstruction videoCompositionInstruction];
     instruction.timeRange = CMTimeRangeMake(kCMTimeZero, [asset duration]);
     AVMutableVideoCompositionLayerInstruction* layerInstruction =
-    [AVMutableVideoCompositionLayerInstruction
-     videoCompositionLayerInstructionWithAssetTrack:videoTrack];
+            [AVMutableVideoCompositionLayerInstruction
+                    videoCompositionLayerInstructionWithAssetTrack:videoTrack];
     [layerInstruction setTransform:_preferredTransform atTime:kCMTimeZero];
 
     AVMutableVideoComposition* videoComposition = [AVMutableVideoComposition videoComposition];
@@ -153,7 +153,7 @@ static inline CGFloat radiansToDegrees(CGFloat radians) {
     CGFloat width = videoTrack.naturalSize.width;
     CGFloat height = videoTrack.naturalSize.height;
     NSInteger rotationDegrees =
-    (NSInteger)round(radiansToDegrees(atan2(_preferredTransform.b, _preferredTransform.a)));
+            (NSInteger)round(radiansToDegrees(atan2(_preferredTransform.b, _preferredTransform.a)));
     if (rotationDegrees == 90 || rotationDegrees == 270) {
         width = videoTrack.naturalSize.height;
         height = videoTrack.naturalSize.width;
@@ -166,28 +166,28 @@ static inline CGFloat radiansToDegrees(CGFloat radians) {
         fps = (int) ceil(nominalFrameRate);
     }
     videoComposition.frameDuration = CMTimeMake(1, fps);
-    
+
     return videoComposition;
 }
 
 - (CGAffineTransform)fixTransform:(AVAssetTrack*)videoTrack {
-  CGAffineTransform transform = videoTrack.preferredTransform;
-  // TODO(@recastrodiaz): why do we need to do this? Why is the preferredTransform incorrect?
-  // At least 2 user videos show a black screen when in portrait mode if we directly use the
-  // videoTrack.preferredTransform Setting tx to the height of the video instead of 0, properly
-  // displays the video https://github.com/flutter/flutter/issues/17606#issuecomment-413473181
-  NSInteger rotationDegrees = (NSInteger)round(radiansToDegrees(atan2(transform.b, transform.a)));
-  if (rotationDegrees == 90) {
-    transform.tx = videoTrack.naturalSize.height;
-    transform.ty = 0;
-  } else if (rotationDegrees == 180) {
-    transform.tx = videoTrack.naturalSize.width;
-    transform.ty = videoTrack.naturalSize.height;
-  } else if (rotationDegrees == 270) {
-    transform.tx = 0;
-    transform.ty = videoTrack.naturalSize.width;
-  }
-  return transform;
+    CGAffineTransform transform = videoTrack.preferredTransform;
+    // TODO(@recastrodiaz): why do we need to do this? Why is the preferredTransform incorrect?
+    // At least 2 user videos show a black screen when in portrait mode if we directly use the
+    // videoTrack.preferredTransform Setting tx to the height of the video instead of 0, properly
+    // displays the video https://github.com/flutter/flutter/issues/17606#issuecomment-413473181
+    NSInteger rotationDegrees = (NSInteger)round(radiansToDegrees(atan2(transform.b, transform.a)));
+    if (rotationDegrees == 90) {
+        transform.tx = videoTrack.naturalSize.height;
+        transform.ty = 0;
+    } else if (rotationDegrees == 180) {
+        transform.tx = videoTrack.naturalSize.width;
+        transform.ty = videoTrack.naturalSize.height;
+    } else if (rotationDegrees == 270) {
+        transform.tx = 0;
+        transform.ty = videoTrack.naturalSize.width;
+    }
+    return transform;
 }
 
 - (void)setDataSourceAsset:(NSString*)asset withKey:(NSString*)key withCertificateUrl:(NSString*)certificateUrl withLicenseUrl:(NSString*)licenseUrl cacheKey:(NSString*)cacheKey cacheManager:(CacheManager*)cacheManager overriddenDuration:(int) overriddenDuration{
@@ -200,7 +200,7 @@ static inline CGFloat radiansToDegrees(CGFloat radians) {
     if (headers == [NSNull null] || headers == NULL){
         headers = @{};
     }
-    
+
     AVPlayerItem* item;
     if (useCache){
         if (cacheKey == [NSNull null]){
@@ -209,7 +209,7 @@ static inline CGFloat radiansToDegrees(CGFloat radians) {
         if (videoExtension == [NSNull null]){
             videoExtension = nil;
         }
-        
+
         item = [cacheManager getCachingPlayerItemForNormalPlayback:url cacheKey:cacheKey videoExtension: videoExtension headers:headers];
     } else {
         AVURLAsset* asset = [AVURLAsset URLAssetWithURL:url
@@ -255,9 +255,9 @@ static inline CGFloat radiansToDegrees(CGFloat radians) {
                         // Video composition can only be used with file-based media and is not supported for
                         // use with media served using HTTP Live Streaming.
                         AVMutableVideoComposition* videoComposition =
-                        [self getVideoCompositionWithTransform:self->_preferredTransform
-                                                     withAsset:asset
-                                                withVideoTrack:videoTrack];
+                                [self getVideoCompositionWithTransform:self->_preferredTransform
+                                                             withAsset:asset
+                                                        withVideoTrack:videoTrack];
                         item.videoComposition = videoComposition;
                     }
                 };
@@ -275,7 +275,7 @@ static inline CGFloat radiansToDegrees(CGFloat radians) {
     if (_isStalledCheckStarted){
         return;
     }
-   _isStalledCheckStarted = true;
+    _isStalledCheckStarted = true;
     [self startStalledCheck];
 }
 
@@ -288,9 +288,9 @@ static inline CGFloat radiansToDegrees(CGFloat radians) {
         if (_stalledCount > 60){
             if (_eventSink != nil) {
                 _eventSink([FlutterError
-                        errorWithCode:@"VideoError"
-                        message:@"Failed to load video: playback stalled"
-                        details:nil]);
+                                   errorWithCode:@"VideoError"
+                                         message:@"Failed to load video: playback stalled"
+                                         details:nil]);
             }
             return;
         }
@@ -329,7 +329,7 @@ static inline CGFloat radiansToDegrees(CGFloat radians) {
                 if (_player.timeControlStatus == AVPlayerTimeControlStatusPaused){
                     _lastAvPlayerTimeControlStatus = _player.timeControlStatus;
                     if (_eventSink != nil) {
-                      _eventSink(@{@"event" : @"pause"});
+                        _eventSink(@{@"event" : @"pause"});
                     }
                     return;
 
@@ -337,7 +337,7 @@ static inline CGFloat radiansToDegrees(CGFloat radians) {
                 if (_player.timeControlStatus == AVPlayerTimeControlStatusPlaying){
                     _lastAvPlayerTimeControlStatus = _player.timeControlStatus;
                     if (_eventSink != nil) {
-                      _eventSink(@{@"event" : @"play"});
+                        _eventSink(@{@"event" : @"play"});
                     }
                 }
             }
@@ -345,8 +345,8 @@ static inline CGFloat radiansToDegrees(CGFloat radians) {
 
         if (_player.rate == 0 && //if player rate dropped to 0
             CMTIME_COMPARE_INLINE(_player.currentItem.currentTime, >, kCMTimeZero) && //if video was started
-            CMTIME_COMPARE_INLINE(_player.currentItem.currentTime, <, _player.currentItem.duration) && //but not yet finished
-            _isPlaying) { //instance variable to handle overall state (changed to YES when user triggers playback)
+        CMTIME_COMPARE_INLINE(_player.currentItem.currentTime, <, _player.currentItem.duration) && //but not yet finished
+        _isPlaying) { //instance variable to handle overall state (changed to YES when user triggers playback)
             [self handleStalled];
         }
     }
@@ -383,10 +383,10 @@ static inline CGFloat radiansToDegrees(CGFloat radians) {
 
                 if (_eventSink != nil) {
                     _eventSink([FlutterError
-                                errorWithCode:@"VideoError"
-                                message:[@"Failed to load video: "
-                                         stringByAppendingString:[item.error localizedDescription]]
-                                details:nil]);
+                                       errorWithCode:@"VideoError"
+                                             message:[@"Failed to load video: "
+                                                     stringByAppendingString:[item.error localizedDescription]]
+                                             details:nil]);
                 }
                 break;
             case AVPlayerItemStatusUnknown:
@@ -475,12 +475,12 @@ static inline CGFloat radiansToDegrees(CGFloat radians) {
         _isInitialized = true;
         [self updatePlayingState];
         _eventSink(@{
-            @"event" : @"initialized",
-            @"duration" : @([self duration]),
-            @"width" : @(fabs(realSize.width) ? : width),
-            @"height" : @(fabs(realSize.height) ? : height),
-            @"key" : _key
-        });
+                           @"event" : @"initialized",
+                           @"duration" : @([self duration]),
+                           @"width" : @(fabs(realSize.width) ? : width),
+                           @"height" : @(fabs(realSize.height) ? : height),
+                           @"key" : _key
+                   });
     }
 }
 
@@ -529,10 +529,10 @@ static inline CGFloat radiansToDegrees(CGFloat radians) {
         toleranceBefore:kCMTimeZero
          toleranceAfter:kCMTimeZero
       completionHandler:^(BOOL finished){
-        if (wasPlaying){
-            _player.rate = _playerRate;
-        }
-    }];
+          if (wasPlaying){
+              _player.rate = _playerRate;
+          }
+      }];
 }
 
 - (void)setIsLooping:(bool)isLooping {
@@ -556,11 +556,7 @@ static inline CGFloat radiansToDegrees(CGFloat radians) {
         _playerRate = speed;
         result(nil);
     } else {
-        if (speed > 1.0) {
-            result([FlutterError errorWithCode:@"unsupported_fast_forward"
-                                       message:@"This video cannot be played fast forward"
-                                       details:nil]);
-        } else {
+        if (speed <= 1.0) {
             result([FlutterError errorWithCode:@"unsupported_slow_forward"
                                        message:@"This video cannot be played slow forward"
                                        details:nil]);
@@ -568,7 +564,10 @@ static inline CGFloat radiansToDegrees(CGFloat radians) {
     }
 
     if (_isPlaying){
-        _player.rate = _playerRate;
+        if (@available(iOS 16, *)) {
+            _player.defaultRate = speed;
+        }
+        _player.rate = speed;
     }
 }
 
