@@ -29,11 +29,11 @@ class SchemeData {
 
   SchemeData copyWithData(Uint8List? data) => SchemeData(
 //        uuid: uuid,
-        licenseServerUrl: licenseServerUrl,
-        mimeType: mimeType,
-        data: data,
-        requiresSecureDecryption: requiresSecureDecryption,
-      );
+    licenseServerUrl: licenseServerUrl,
+    mimeType: mimeType,
+    data: data,
+    requiresSecureDecryption: requiresSecureDecryption,
+  );
 
   @override
   bool operator ==(dynamic other) {
@@ -49,10 +49,9 @@ class SchemeData {
   }
 
   @override
-  int get hashCode => hashValues(
-      /*uuid, */
-      licenseServerUrl,
-      mimeType,
-      data,
-      requiresSecureDecryption);
+  int get hashCode =>
+      licenseServerUrl.hashCode ^
+      mimeType.hashCode ^
+      data.hashCode ^
+      requiresSecureDecryption.hashCode;
 }
